@@ -2,57 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* HRMS Design System - Tesla-inspired with Violet/Blue/Pink gradients */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark theme base colors */
+    --background: 220 20% 8%;
+    --foreground: 210 40% 98%;
+    
+    /* Brand colors - Violet/Blue/Pink gradient palette */
+    --primary: 270 100% 70%;
+    --primary-glow: 280 100% 80%;
+    --secondary: 240 100% 75%;
+    --accent: 320 100% 75%;
+    
+    /* Surface colors */
+    --surface: 220 25% 12%;
+    --surface-elevated: 220 25% 16%;
+    --surface-card: 220 25% 14%;
+    
+    /* Interactive states */
+    --hover: 270 100% 75%;
+    --focus: 280 100% 85%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(270 100% 70%), hsl(240 100% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(240 100% 75%), hsl(320 100% 75%));
+    --gradient-subtle: linear-gradient(180deg, hsl(220 25% 12%), hsl(220 25% 8%));
+    --gradient-card: linear-gradient(135deg, hsl(220 25% 14%), hsl(220 25% 16%));
+    
+    /* Shadows and glows */
+    --shadow-subtle: 0 2px 8px hsl(220 20% 4% / 0.4);
+    --shadow-card: 0 8px 32px hsl(220 20% 4% / 0.6);
+    --glow-primary: 0 0 20px hsl(270 100% 70% / 0.3);
+    --glow-secondary: 0 0 16px hsl(240 100% 75% / 0.25);
+    
+    /* Tesla-inspired animations */
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    /* Shadcn overrides for HRMS */
+    --card: var(--surface-card);
+    --card-foreground: var(--foreground);
+    
+    --popover: var(--surface-elevated);
+    --popover-foreground: var(--foreground);
+    
+    --primary-foreground: 220 20% 8%;
+    
+    --secondary-foreground: var(--foreground);
+    
+    --muted: var(--surface);
+    --muted-foreground: 210 20% 65%;
+    
+    --accent-foreground: 220 20% 8%;
+    
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: var(--foreground);
+    
+    --border: 220 25% 20%;
+    --input: var(--surface-elevated);
+    --ring: var(--primary);
+    
+    --radius: 0.75rem;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: var(--surface);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: 220 20% 8%;
+    --sidebar-accent: var(--surface-elevated);
+    --sidebar-accent-foreground: var(--foreground);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--primary);
   }
 
   .dark {
@@ -101,5 +123,68 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: var(--gradient-subtle);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Tesla-inspired button variants */
+  .btn-tesla {
+    @apply relative overflow-hidden rounded-lg px-6 py-3 font-medium transition-all duration-300;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-subtle);
+    transform: translateY(0);
+  }
+  
+  .btn-tesla:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card), var(--glow-primary);
+  }
+  
+  .btn-tesla:active {
+    transform: translateY(0);
+  }
+  
+  .btn-tesla::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .btn-tesla:hover::before {
+    left: 100%;
+  }
+  
+  /* Card variants */
+  .card-gradient {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .card-hover {
+    transition: var(--transition-smooth);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card), var(--glow-secondary);
+  }
+  
+  /* Input styles */
+  .input-glow:focus {
+    box-shadow: var(--glow-primary);
+    border-color: hsl(var(--primary));
+  }
+  
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
   }
 }

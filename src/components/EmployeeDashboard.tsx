@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock, Users, TrendingUp, Calendar, LogIn, LogOut } from "lucide-react";
+import { Clock, Users, TrendingUp, Calendar, LogIn, LogOut, Plane } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const employeeData = [
@@ -81,6 +81,13 @@ export function EmployeeDashboard() {
     setClockInTime(null);
   };
 
+  const handleLeaveRequest = () => {
+    toast({
+      title: "Leave Request Initiated",
+      description: "Please fill out the leave request form",
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -136,6 +143,16 @@ export function EmployeeDashboard() {
                   Clock Out
                 </Button>
               )}
+              
+              <Button
+                onClick={handleLeaveRequest}
+                size="lg"
+                variant="outline"
+                className="border-2 border-accent text-accent hover:bg-accent hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-glow px-8 py-6 text-lg"
+              >
+                <Plane className="mr-2 h-5 w-5" />
+                Request Leave
+              </Button>
             </div>
           </div>
         </CardContent>

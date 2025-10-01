@@ -19,7 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock, Users, TrendingUp, Calendar } from "lucide-react";
+import { Clock, Users, TrendingUp, Calendar, LogIn, LogOut } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const employeeData = [
   {
@@ -56,6 +57,29 @@ const performanceData = [
 
 export function EmployeeDashboard() {
   const [selectedDepartment, setSelectedDepartment] = useState("All Departments");
+  const [isClockedIn, setIsClockedIn] = useState(false);
+  const [clockInTime, setClockInTime] = useState<Date | null>(null);
+  const { toast } = useToast();
+
+  const handleClockIn = () => {
+    const now = new Date();
+    setIsClockedIn(true);
+    setClockInTime(now);
+    toast({
+      title: "Clocked In Successfully",
+      description: `Time: ${now.toLocaleTimeString()}`,
+    });
+  };
+
+  const handleClockOut = () => {
+    const now = new Date();
+    setIsClockedIn(false);
+    toast({
+      title: "Clocked Out Successfully",
+      description: `Time: ${now.toLocaleTimeString()}`,
+    });
+    setClockInTime(null);
+  };
 
   return (
     <div className="space-y-6">
@@ -69,6 +93,53 @@ export function EmployeeDashboard() {
           Add Employee
         </Button>
       </div>
+
+      {/* Clock In/Out Section */}
+      <Card className="card-gradient overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 pointer-events-none" />
+        <CardContent className="p-8 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-6">
+              <div className="h-20 w-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow">
+                <Clock className="h-10 w-10 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-foreground mb-2">Time Tracking</h2>
+                {isClockedIn && clockInTime ? (
+                  <p className="text-muted-foreground">
+                    Clocked in at <span className="font-semibold text-primary">{clockInTime.toLocaleTimeString()}</span>
+                  </p>
+                ) : (
+                  <p className="text-muted-foreground">Ready to start your day?</p>
+                )}
+              </div>
+            </div>
+            
+            <div className="flex gap-4">
+              {!isClockedIn ? (
+                <Button
+                  onClick={handleClockIn}
+                  size="lg"
+                  className="btn-tesla group relative overflow-hidden px-8 py-6 text-lg"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-shimmer" />
+                  <LogIn className="mr-2 h-5 w-5 relative z-10" />
+                  <span className="relative z-10">Clock In</span>
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleClockOut}
+                  size="lg"
+                  className="bg-gradient-to-r from-destructive to-destructive/80 hover:from-destructive/90 hover:to-destructive/70 text-white shadow-elegant transition-all duration-300 hover:scale-105 hover:shadow-glow px-8 py-6 text-lg"
+                >
+                  <LogOut className="mr-2 h-5 w-5" />
+                  Clock Out
+                </Button>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

@@ -7,35 +7,35 @@
 @layer base {
   :root {
     /* Dark theme base colors */
-    --background: 220 20% 8%;
-    --foreground: 210 40% 98%;
+    --background: 220 30% 6%;
+    --foreground: 210 20% 95%;
     
-    /* Brand colors - Violet/Blue/Pink gradient palette */
-    --primary: 270 100% 70%;
-    --primary-glow: 280 100% 80%;
-    --secondary: 240 100% 75%;
-    --accent: 320 100% 75%;
+    /* Brand colors - Gold and Navy inspired by logo */
+    --primary: 40 85% 55%;
+    --primary-glow: 42 90% 65%;
+    --secondary: 220 40% 45%;
+    --accent: 38 75% 50%;
     
     /* Surface colors */
-    --surface: 220 25% 12%;
-    --surface-elevated: 220 25% 16%;
-    --surface-card: 220 25% 14%;
+    --surface: 222 25% 10%;
+    --surface-elevated: 220 22% 14%;
+    --surface-card: 221 24% 12%;
     
     /* Interactive states */
-    --hover: 270 100% 75%;
-    --focus: 280 100% 85%;
+    --hover: 40 85% 60%;
+    --focus: 42 90% 70%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(270 100% 70%), hsl(240 100% 75%));
-    --gradient-secondary: linear-gradient(135deg, hsl(240 100% 75%), hsl(320 100% 75%));
-    --gradient-subtle: linear-gradient(180deg, hsl(220 25% 12%), hsl(220 25% 8%));
-    --gradient-card: linear-gradient(135deg, hsl(220 25% 14%), hsl(220 25% 16%));
+    --gradient-primary: linear-gradient(135deg, hsl(220 40% 20%), hsl(222 35% 15%));
+    --gradient-secondary: linear-gradient(135deg, hsl(40 85% 55% / 0.1), hsl(220 40% 20%));
+    --gradient-subtle: linear-gradient(180deg, hsl(222 25% 10%), hsl(220 30% 6%));
+    --gradient-card: linear-gradient(135deg, hsl(221 24% 12%), hsl(220 22% 14%));
     
     /* Shadows and glows */
-    --shadow-subtle: 0 2px 8px hsl(220 20% 4% / 0.4);
-    --shadow-card: 0 8px 32px hsl(220 20% 4% / 0.6);
-    --glow-primary: 0 0 20px hsl(270 100% 70% / 0.3);
-    --glow-secondary: 0 0 16px hsl(240 100% 75% / 0.25);
+    --shadow-subtle: 0 2px 8px hsl(220 30% 3% / 0.5);
+    --shadow-card: 0 8px 24px hsl(220 30% 3% / 0.7);
+    --glow-primary: 0 0 20px hsl(40 85% 55% / 0.15);
+    --glow-secondary: 0 0 16px hsl(220 40% 45% / 0.2);
     
     /* Tesla-inspired animations */
     --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);

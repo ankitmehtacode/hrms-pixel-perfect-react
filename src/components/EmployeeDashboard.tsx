@@ -91,14 +91,19 @@ export function EmployeeDashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Employees</h1>
-          <p className="text-muted-foreground mt-1">Manage your workforce efficiently</p>
+          <h1 className="text-4xl font-bold text-foreground tracking-tight">Employees</h1>
+          <p className="text-muted-foreground mt-2 text-base">Manage your workforce efficiently</p>
         </div>
-        <Button className="btn-tesla">
-          Add Employee
-        </Button>
+        <div className="flex gap-3">
+          <Button variant="outline" className="border-border hover:bg-surface-elevated transition-all duration-200">
+            Export Data
+          </Button>
+          <Button className="btn-tesla shadow-glow">
+            Add Employee
+          </Button>
+        </div>
       </div>
 
       {/* Clock In/Out Section */}
@@ -122,12 +127,12 @@ export function EmployeeDashboard() {
               </div>
             </div>
             
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-3">
               {!isClockedIn ? (
                 <Button
                   onClick={handleClockIn}
                   size="lg"
-                  className="btn-tesla group relative overflow-hidden px-8 py-6 text-lg"
+                  className="btn-tesla group relative overflow-hidden px-10 py-6 text-base font-medium shadow-glow"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-shimmer" />
                   <LogIn className="mr-2 h-5 w-5 relative z-10" />
@@ -137,7 +142,7 @@ export function EmployeeDashboard() {
                 <Button
                   onClick={handleClockOut}
                   size="lg"
-                  className="bg-gradient-to-r from-destructive to-destructive/80 hover:from-destructive/90 hover:to-destructive/70 text-white shadow-elegant transition-all duration-300 hover:scale-105 hover:shadow-glow px-8 py-6 text-lg"
+                  className="bg-gradient-to-r from-destructive to-destructive/80 hover:from-destructive/90 hover:to-destructive/70 text-white shadow-elegant transition-all duration-200 hover:scale-[1.02] hover:shadow-glow px-10 py-6 text-base font-medium"
                 >
                   <LogOut className="mr-2 h-5 w-5" />
                   Clock Out
@@ -148,7 +153,7 @@ export function EmployeeDashboard() {
                 onClick={handleLeaveRequest}
                 size="lg"
                 variant="outline"
-                className="border-2 border-accent text-accent hover:bg-accent hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-glow px-8 py-6 text-lg"
+                className="border-2 border-primary/40 text-foreground hover:bg-primary hover:text-background hover:border-primary transition-all duration-200 hover:scale-[1.02] px-10 py-6 text-base font-medium"
               >
                 <Plane className="mr-2 h-5 w-5" />
                 Request Leave
@@ -270,13 +275,16 @@ export function EmployeeDashboard() {
             </Table>
           </div>
           
-          <div className="flex justify-end space-x-3 mt-6">
-            <Button variant="outline" className="border-border hover:bg-surface-elevated">
-              Save Draft
-            </Button>
-            <Button className="btn-tesla">
-              Submit for Approval
-            </Button>
+          <div className="flex justify-between items-center mt-6 pt-6 border-t border-border">
+            <p className="text-sm text-muted-foreground">Last saved: {new Date().toLocaleString()}</p>
+            <div className="flex gap-3">
+              <Button variant="outline" className="border-border hover:bg-surface-elevated transition-all duration-200">
+                Save Draft
+              </Button>
+              <Button className="btn-tesla shadow-glow">
+                Submit for Approval
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

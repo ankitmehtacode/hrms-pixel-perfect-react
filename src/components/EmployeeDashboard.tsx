@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { 
   Table, 
   TableBody, 
@@ -19,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock, Users, TrendingUp, Calendar, LogIn, LogOut, Plane } from "lucide-react";
+import { Clock, Users, TrendingUp, Calendar, FileText, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const employeeData = [
@@ -56,174 +54,158 @@ const performanceData = [
 ];
 
 export function EmployeeDashboard() {
-  const [selectedDepartment, setSelectedDepartment] = useState("All Departments");
-  const [isClockedIn, setIsClockedIn] = useState(false);
-  const [clockInTime, setClockInTime] = useState<Date | null>(null);
   const { toast } = useToast();
-
-  const handleClockIn = () => {
-    const now = new Date();
-    setIsClockedIn(true);
-    setClockInTime(now);
-    toast({
-      title: "Clocked In Successfully",
-      description: `Time: ${now.toLocaleTimeString()}`,
-    });
-  };
-
-  const handleClockOut = () => {
-    const now = new Date();
-    setIsClockedIn(false);
-    toast({
-      title: "Clocked Out Successfully",
-      description: `Time: ${now.toLocaleTimeString()}`,
-    });
-    setClockInTime(null);
-  };
-
-  const handleLeaveRequest = () => {
-    toast({
-      title: "Leave Request Initiated",
-      description: "Please fill out the leave request form",
-    });
-  };
+  const managerName = "Alex Thompson";
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
-        <div>
-          <h1 className="text-4xl font-bold text-foreground tracking-tight">Employees</h1>
-          <p className="text-muted-foreground mt-2 text-base">Manage your workforce efficiently</p>
-        </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="border-border hover:bg-surface-elevated transition-all duration-200">
-            Export Data
-          </Button>
-          <Button className="btn-tesla shadow-glow">
-            Add Employee
-          </Button>
-        </div>
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      {/* Welcome Header - Swiss Grid */}
+      <div className="mb-12">
+        <h1 className="text-5xl font-semibold text-foreground mb-2 tracking-tight">
+          Welcome back, {managerName}
+        </h1>
+        <p className="text-muted-foreground text-base font-normal mt-3">
+          {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
       </div>
 
-      {/* Clock In/Out Section */}
-      <Card className="card-gradient overflow-hidden relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 pointer-events-none" />
-        <CardContent className="p-8 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-6">
-              <div className="h-20 w-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow">
-                <Clock className="h-10 w-10 text-white" />
-              </div>
+      {/* Key Metrics Grid - Swiss 12 column layout */}
+      <div className="grid grid-cols-12 gap-6 mb-12">
+        <Card className="col-span-12 md:col-span-3 card-swiss border-l-4 border-l-primary">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-foreground mb-2">Time Tracking</h2>
-                {isClockedIn && clockInTime ? (
-                  <p className="text-muted-foreground">
-                    Clocked in at <span className="font-semibold text-primary">{clockInTime.toLocaleTimeString()}</span>
-                  </p>
-                ) : (
-                  <p className="text-muted-foreground">Ready to start your day?</p>
-                )}
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-3">Total Employees</p>
+                <p className="text-4xl font-semibold text-foreground tracking-tight">1,247</p>
+                <p className="text-xs text-muted-foreground mt-2">+12 this month</p>
               </div>
+              <Users className="h-5 w-5 text-primary" strokeWidth={1.5} />
             </div>
-            
-            <div className="flex flex-wrap gap-3">
-              {!isClockedIn ? (
-                <Button
-                  onClick={handleClockIn}
-                  size="lg"
-                  className="btn-tesla group relative overflow-hidden px-10 py-6 text-base font-medium shadow-glow"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-shimmer" />
-                  <LogIn className="mr-2 h-5 w-5 relative z-10" />
-                  <span className="relative z-10">Clock In</span>
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleClockOut}
-                  size="lg"
-                  className="bg-gradient-to-r from-destructive to-destructive/80 hover:from-destructive/90 hover:to-destructive/70 text-white shadow-elegant transition-all duration-200 hover:scale-[1.02] hover:shadow-glow px-10 py-6 text-base font-medium"
-                >
-                  <LogOut className="mr-2 h-5 w-5" />
-                  Clock Out
-                </Button>
-              )}
-              
-              <Button
-                onClick={handleLeaveRequest}
-                size="lg"
-                variant="outline"
-                className="border-2 border-primary/40 text-foreground hover:bg-primary hover:text-background hover:border-primary transition-all duration-200 hover:scale-[1.02] px-10 py-6 text-base font-medium"
-              >
-                <Plane className="mr-2 h-5 w-5" />
-                Request Leave
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-12 md:col-span-3 card-swiss">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-3">Avg Hours/Week</p>
+                <p className="text-4xl font-semibold text-foreground tracking-tight">42.5</p>
+                <p className="text-xs text-muted-foreground mt-2">-2.3% from last week</p>
+              </div>
+              <Clock className="h-5 w-5 text-primary" strokeWidth={1.5} />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-12 md:col-span-3 card-swiss">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-3">Performance</p>
+                <p className="text-4xl font-semibold text-foreground tracking-tight">94.2%</p>
+                <p className="text-xs text-muted-foreground mt-2">+3.1% improvement</p>
+              </div>
+              <TrendingUp className="h-5 w-5 text-primary" strokeWidth={1.5} />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-12 md:col-span-3 card-swiss">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-3">On Leave</p>
+                <p className="text-4xl font-semibold text-foreground tracking-tight">23</p>
+                <p className="text-xs text-muted-foreground mt-2">5 pending approval</p>
+              </div>
+              <Calendar className="h-5 w-5 text-primary" strokeWidth={1.5} />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Pending Requests Summary */}
+      <div className="grid grid-cols-12 gap-6 mb-12">
+        <Card className="col-span-12 md:col-span-6 card-swiss">
+          <CardHeader className="border-b border-border pb-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-semibold tracking-tight">Pending Leave Requests</CardTitle>
+              <Badge variant="secondary" className="bg-primary/10 text-primary border-0 font-medium">5 Pending</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="divide-y divide-border">
+              {[
+                { name: "Sarah Mitchell", type: "Annual Leave", dates: "Mar 15-19, 2025", days: 5 },
+                { name: "James Chen", type: "Sick Leave", dates: "Mar 12, 2025", days: 1 },
+                { name: "Emma Davis", type: "Personal Leave", dates: "Mar 20-21, 2025", days: 2 },
+              ].map((request, idx) => (
+                <div key={idx} className="p-4 hover:bg-muted/30 transition-colors cursor-pointer flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-foreground text-sm">{request.name}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{request.type} • {request.dates}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-medium text-muted-foreground">{request.days} days</span>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 border-t border-border">
+              <Button variant="outline" className="w-full btn-swiss-outline text-sm font-medium">
+                View All Requests
               </Button>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="card-gradient card-hover">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <Users className="h-8 w-8 text-primary" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-muted-foreground">Total Employees</p>
-                <p className="text-2xl font-bold text-foreground">1,247</p>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
-        <Card className="card-gradient card-hover">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <Clock className="h-8 w-8 text-secondary" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-muted-foreground">Avg Hours/Week</p>
-                <p className="text-2xl font-bold text-foreground">42.5</p>
-              </div>
+        <Card className="col-span-12 md:col-span-6 card-swiss">
+          <CardHeader className="border-b border-border pb-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-semibold tracking-tight">Pending Expense Reports</CardTitle>
+              <Badge variant="secondary" className="bg-primary/10 text-primary border-0 font-medium">3 Pending</Badge>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="card-gradient card-hover">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <TrendingUp className="h-8 w-8 text-accent" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-muted-foreground">Performance</p>
-                <p className="text-2xl font-bold text-foreground">94.2%</p>
-              </div>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="divide-y divide-border">
+              {[
+                { name: "Michael Park", category: "Travel", amount: "$2,450", date: "Mar 10, 2025" },
+                { name: "Lisa Anderson", category: "Equipment", amount: "$890", date: "Mar 11, 2025" },
+                { name: "David Kim", category: "Training", amount: "$1,200", date: "Mar 12, 2025" },
+              ].map((expense, idx) => (
+                <div key={idx} className="p-4 hover:bg-muted/30 transition-colors cursor-pointer flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-foreground text-sm">{expense.name}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{expense.category} • {expense.date}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-semibold text-foreground">{expense.amount}</span>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                  </div>
+                </div>
+              ))}
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="card-gradient card-hover">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <Calendar className="h-8 w-8 text-primary" />
-              <div className="ml-4">
-                <p className="text-sm font-medium text-muted-foreground">On Leave</p>
-                <p className="text-2xl font-bold text-foreground">23</p>
-              </div>
+            <div className="p-4 border-t border-border">
+              <Button variant="outline" className="w-full btn-swiss-outline text-sm font-medium">
+                View All Expenses
+              </Button>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Time & Attendance Section */}
-      <Card className="card-gradient">
-        <CardHeader>
+
+      {/* Time & Attendance Table - Clean minimalist layout */}
+      <Card className="card-swiss mb-12">
+        <CardHeader className="border-b border-border pb-4">
           <div className="flex justify-between items-center">
-            <CardTitle className="text-xl text-foreground">Time & Attendance Log & Review Your Hours</CardTitle>
+            <CardTitle className="text-lg font-semibold tracking-tight">Time & Attendance</CardTitle>
             <Select defaultValue="All Departments">
-              <SelectTrigger className="w-48 bg-surface-elevated border-border">
+              <SelectTrigger className="w-48 border-border">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-surface-elevated border-border">
+              <SelectContent>
                 <SelectItem value="All Departments">All Departments</SelectItem>
                 <SelectItem value="AI Engineering">AI Engineering</SelectItem>
                 <SelectItem value="Robotics">Robotics</SelectItem>
@@ -232,56 +214,53 @@ export function EmployeeDashboard() {
             </Select>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-surface-elevated">
-                  <TableHead className="text-foreground font-semibold">Employee</TableHead>
-                  <TableHead className="text-foreground font-semibold">Job Title</TableHead>
-                  <TableHead className="text-foreground font-semibold">Status</TableHead>
-                  <TableHead className="text-foreground font-semibold text-center">Mon</TableHead>
-                  <TableHead className="text-foreground font-semibold text-center">Wed</TableHead>
-                  <TableHead className="text-foreground font-semibold text-center">Thu</TableHead>
-                  <TableHead className="text-foreground font-semibold text-center">Fri</TableHead>
-                  <TableHead className="text-foreground font-semibold text-center">Sun</TableHead>
-                  <TableHead className="text-foreground font-semibold text-center">Total</TableHead>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-border">
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide">Employee</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide">Job Title</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide">Status</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide text-right">Mon</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide text-right">Wed</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide text-right">Thu</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide text-right">Fri</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide text-right">Sun</TableHead>
+                <TableHead className="text-foreground font-medium text-xs uppercase tracking-wide text-right">Total</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {employeeData.map((employee, index) => (
+                <TableRow key={index} className="border-b border-border hover:bg-muted/20 transition-colors">
+                  <TableCell className="font-medium text-foreground py-4">{employee.name}</TableCell>
+                  <TableCell className="text-muted-foreground">{employee.jobTitle}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant="secondary" 
+                      className="bg-primary/10 text-primary border-0 font-medium text-xs"
+                    >
+                      {employee.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right text-foreground font-mono text-sm">{employee.hours.mon || '—'}</TableCell>
+                  <TableCell className="text-right text-foreground font-mono text-sm">{employee.hours.wed || '—'}</TableCell>
+                  <TableCell className="text-right text-foreground font-mono text-sm">{employee.hours.thu || '—'}</TableCell>
+                  <TableCell className="text-right text-foreground font-mono text-sm">{employee.hours.fri || '—'}</TableCell>
+                  <TableCell className="text-right text-foreground font-mono text-sm">{employee.hours.sun || '—'}</TableCell>
+                  <TableCell className="text-right font-semibold text-primary font-mono text-sm">
+                    {Object.values(employee.hours).reduce((sum, hours) => sum + hours, 0)}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {employeeData.map((employee, index) => (
-                  <TableRow key={index} className="hover:bg-surface-elevated/50 transition-colors">
-                    <TableCell className="font-medium text-foreground">{employee.name}</TableCell>
-                    <TableCell className="text-muted-foreground">{employee.jobTitle}</TableCell>
-                    <TableCell>
-                      <Badge 
-                        variant="secondary" 
-                        className="bg-primary/20 text-primary border-primary/30"
-                      >
-                        {employee.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-center text-foreground">{employee.hours.mon || '-'}</TableCell>
-                    <TableCell className="text-center text-foreground">{employee.hours.wed || '-'}</TableCell>
-                    <TableCell className="text-center text-foreground">{employee.hours.thu || '-'}</TableCell>
-                    <TableCell className="text-center text-foreground">{employee.hours.fri || '-'}</TableCell>
-                    <TableCell className="text-center text-foreground">{employee.hours.sun || '-'}</TableCell>
-                    <TableCell className="text-center font-medium text-primary">
-                      {Object.values(employee.hours).reduce((sum, hours) => sum + hours, 0)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
           
-          <div className="flex justify-between items-center mt-6 pt-6 border-t border-border">
-            <p className="text-sm text-muted-foreground">Last saved: {new Date().toLocaleString()}</p>
+          <div className="flex justify-end items-center p-4 border-t border-border bg-muted/20">
             <div className="flex gap-3">
-              <Button variant="outline" className="border-border hover:bg-surface-elevated transition-all duration-200">
-                Save Draft
+              <Button variant="outline" className="btn-swiss-outline text-sm">
+                Export Report
               </Button>
-              <Button className="btn-tesla shadow-glow">
+              <Button className="btn-swiss text-sm">
                 Submit for Approval
               </Button>
             </div>
@@ -289,40 +268,41 @@ export function EmployeeDashboard() {
         </CardContent>
       </Card>
 
-      {/* Performance Metrics */}
-      <Card className="card-gradient">
-        <CardHeader>
-          <CardTitle className="text-xl text-foreground">Performance Metrics</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-surface-elevated">
-                  <TableHead className="text-foreground font-semibold">Employee</TableHead>
-                  <TableHead className="text-foreground font-semibold">Score</TableHead>
-                  <TableHead className="text-foreground font-semibold">Rating</TableHead>
-                  <TableHead className="text-foreground font-semibold">Projects</TableHead>
-                  <TableHead className="text-foreground font-semibold">Completion</TableHead>
-                  <TableHead className="text-foreground font-semibold">Total</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {performanceData.map((employee, index) => (
-                  <TableRow key={index} className="hover:bg-surface-elevated/50 transition-colors">
-                    <TableCell className="font-medium text-foreground">{employee.name}</TableCell>
-                    <TableCell className="text-foreground">{employee.score}</TableCell>
-                    <TableCell className="text-foreground">{employee.rating}</TableCell>
-                    <TableCell className="text-foreground">{employee.projects}</TableCell>
-                    <TableCell className="text-foreground">{employee.completion}</TableCell>
-                    <TableCell className="font-medium text-primary">{employee.total}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Quick Access Actions - Bottom aligned */}
+      <div className="grid grid-cols-12 gap-6">
+        <Card className="col-span-12 md:col-span-4 card-swiss border-l-4 border-l-primary">
+          <CardContent className="p-6">
+            <FileText className="h-6 w-6 text-primary mb-4" strokeWidth={1.5} />
+            <h3 className="font-semibold text-foreground text-base mb-2">Generate Report</h3>
+            <p className="text-sm text-muted-foreground mb-4">Create detailed workforce analytics</p>
+            <Button className="btn-swiss-outline w-full text-sm">
+              Generate
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-12 md:col-span-4 card-swiss">
+          <CardContent className="p-6">
+            <Users className="h-6 w-6 text-primary mb-4" strokeWidth={1.5} />
+            <h3 className="font-semibold text-foreground text-base mb-2">Manage Teams</h3>
+            <p className="text-sm text-muted-foreground mb-4">Organize departments and roles</p>
+            <Button className="btn-swiss-outline w-full text-sm">
+              Manage
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-12 md:col-span-4 card-swiss">
+          <CardContent className="p-6">
+            <Calendar className="h-6 w-6 text-primary mb-4" strokeWidth={1.5} />
+            <h3 className="font-semibold text-foreground text-base mb-2">Schedule Review</h3>
+            <p className="text-sm text-muted-foreground mb-4">Plan upcoming team meetings</p>
+            <Button className="btn-swiss-outline w-full text-sm">
+              Schedule
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
